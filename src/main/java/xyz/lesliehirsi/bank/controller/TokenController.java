@@ -1,8 +1,11 @@
 package xyz.lesliehirsi.bank.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.lesliehirsi.bank.domain.WxSession;
 import xyz.lesliehirsi.bank.util.SignUtil;
+import xyz.lesliehirsi.bank.util.WeiXinUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +46,12 @@ public class TokenController {
 
     }
 
-
+    @GetMapping("/wx/session")
+    public String getOpenId(HttpServletRequest request) throws IOException {
+        String code = request.getParameter("code");
+        WxSession wxSession = WeiXinUtil.getWxSession(code);
+        return JSONObject.toJSONString(wxSession);
+    }
 
     @GetMapping("/test")
     public String test(){

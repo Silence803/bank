@@ -11,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import xyz.lesliehirsi.bank.domain.AccessToken;
+import xyz.lesliehirsi.bank.domain.WxSession;
 
 import java.io.IOException;
 
@@ -20,9 +21,10 @@ import java.io.IOException;
 public class WeiXinUtil {
 
     //从微信后台拿到APPID和APPSECRET 并封装为常量
-    private static final String APPID = "wxe900235e8e4ad8d3";
-    private static final String APPSECRET = "9a0f7a5749104021873618334bee5a0c";
+    private static final String APPID = "wxd34fc733183052d2";
+    private static final String APPSECRET = "6bdeca7bbe50820c4cd52f108b7065d7";
     private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+    private static final String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=APPSECRET&js_code=JSCODE&grant_type=authorization_code";
     /**
      * 编写Get请求的方法。但没有参数传递的时候，可以使用Get请求
      *
@@ -75,8 +77,20 @@ public class WeiXinUtil {
         return token;
     }
 
+    public static WxSession getWxSession(String jsCode) throws IOException {
+        WxSession wxSession = new WxSession();
+        String url = OPEN_ID_URL.replace("APPID", APPID).replace("APPSECRET", APPSECRET).replace("JSCODE", jsCode);
+        JSONObject jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
+        if (jsonObject != null){
+            wxSession.setOpenid(jsonObject.getString("openid"));
+            wxSession.setSession_key(jsonObject.getString("session_key"));
+            wxSession.setUnionid(jsonObject.getString("unionid"));
+        }
+        return wxSession;
+    }
+
     public static void main(String [] args) throws IOException {
-        AccessToken at = getAccessToken();
-        System.out.println(at.toString());
+        WxSession wxSession = getWxSession("001fvIda1tKazO17opba15KNda1fvId9");
+        System.out.println(JSONObject.toJSONString(wxSession));
     }
 }
