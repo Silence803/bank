@@ -20,6 +20,8 @@ public class BankController {
 
     @GetMapping("/login")
     public ResponseBaseDTO login(HttpServletRequest request) {
+
+        System.out.println("login---------------------");
         ResponseBaseDTO dto = new ResponseBaseDTO();
         String openid = request.getParameter("openid");
         boolean ret = bankService.checkUserExist(openid);

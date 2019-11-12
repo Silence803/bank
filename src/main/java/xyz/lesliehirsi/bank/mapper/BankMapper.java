@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BankMapper {
 
-    @Insert("insert into wx_user values(#{openId}, current_timestamp)")
+    @Insert("insert into bank_user values(#{openId}, current_timestamp)")
     void insertWxUser(String openId);
 
-    @Select("select count(*) from wx_user where openid=#{openId}")
+    @Select("select count(*) from bank_user where openid=#{openId}")
     int checkUserExist(String openId);
 }
