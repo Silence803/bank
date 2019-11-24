@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/lesliebank?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT
+    url: jdbc:mysql://122.51.179.89:3306/bank?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT
     username: root
-    password: 111111
+    password: 920919
     driver-class-name: com.mysql.cj.jdbc.Driver
